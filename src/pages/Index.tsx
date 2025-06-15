@@ -60,9 +60,14 @@ const Index = () => {
             CareerNest
             <span className="font-normal text-gradient ml-1">AI</span>
           </div>
-          <BrandButton as="a" href="#cta" className="font-inter text-base px-4 py-2 rounded-lg">
-            Get Early Access <ArrowRight size={18} />
-          </BrandButton>
+          <div className="flex gap-3">
+            <BrandButton as="a" href="#cta" className="font-inter text-base px-4 py-2 rounded-lg">
+              Get Early Access <ArrowRight size={18} />
+            </BrandButton>
+            <BrandButton as="a" href="/login" className="font-inter text-base px-4 py-2 rounded-lg bg-accent text-black hover:bg-primary hover:text-white transition-colors">
+              Login
+            </BrandButton>
+          </div>
         </nav>
       </header>
 

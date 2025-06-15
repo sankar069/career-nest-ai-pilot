@@ -1,7 +1,6 @@
 
 import { useCallback } from "react";
-import Particles from "@tsparticles/react";
-import { loadFull } from "@tsparticles/engine";
+import Particles, { loadFull } from "@tsparticles/react";
 
 export function ParticleBackground() {
   // Proper loader for the @tsparticles/react v2+ API
@@ -19,12 +18,12 @@ export function ParticleBackground() {
         particles: {
           number: {
             value: 60,
-            density: { enable: true, area: 800 },
+            density: { enable: true, value_area: 800 },
           },
           color: { value: ["#352cf6", "#61e5fc", "#97ff5c", "#e5e8ff"] },
           shape: { type: ["circle", "polygon"] },
-          opacity: { value: 0.33, random: true },
-          size: { value: 6, random: true },
+          opacity: { value: 0.33 },
+          size: { value: 6 },
           links: {
             enable: true,
             distance: 165,
@@ -56,3 +55,4 @@ export function ParticleBackground() {
     />
   );
 }
+

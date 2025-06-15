@@ -1,13 +1,10 @@
-
 import { FileText, Search, Mic, BarChart, Rocket, Briefcase } from "lucide-react";
 
 export const featuresData = [
   {
-    route: "/resume-generator",
     icon: <FileText className="w-9 h-9 text-primary" />,
     title: "Resume & Cover Letter Generator",
-    summary: "Instantly create AI-powered resumes and cover letters tailored to your target role and optimized for success.",
-    hero: "Generate job-winning resumes and cover letters in seconds, styled with a HackerRank-inspired format.",
+    hero: "Instantly create AI-powered resumes and cover letters tailored to your target role and optimized for success.",
     featureList: [
       "AI-built, tailored documents for job-specific branding",
       "HackerRank-style resume format",
@@ -15,7 +12,8 @@ export const featuresData = [
       "Auto-formatting for clean layout",
       "Export as PDF & DOCX instantly"
     ],
-    cta: { label: "Start Building Resume", demoPath: "/resume-generator/demo" }
+    cta: { label: "Start Building Resume", demoPath: "/resume-builder" },
+    route: "/resume-generator",
   },
   {
     route: "/ats-engine",

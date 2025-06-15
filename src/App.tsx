@@ -1,3 +1,4 @@
+import React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -76,7 +77,6 @@ const App = () => (
 );
 
 // Import ResumeBuilder for routing
-import React from "react";
 const ResumeBuilder = React.lazy(() => import("./pages/ResumeBuilder"));
 const AtsEngineDemo = React.lazy(() => import("./pages/AtsEngineDemo"));
 import CareerAnalyzer from "./pages/CareerAnalyzer";

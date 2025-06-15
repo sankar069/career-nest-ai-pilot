@@ -1,3 +1,4 @@
+
 import { BrandButton } from "@/components/BrandButton";
 import { FeatureCard } from "@/components/FeatureCard";
 import { StatBar } from "@/components/StatBar";
@@ -5,6 +6,8 @@ import { DashboardPreview } from "@/components/DashboardPreview";
 import { InterviewPreview } from "@/components/InterviewPreview";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+
+// All imports above are used – nothing to remove.
 
 const features = [
   {
@@ -56,9 +59,7 @@ const fadeIn = {
 };
 
 const Index = () => {
-  // Utility function for robust email validation
   function isValidEmail(email: string) {
-    // Basic RFC 5322 regex - still not perfect, but covers most cases
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email.trim());
   }
@@ -106,7 +107,11 @@ const Index = () => {
           </motion.h1>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0, transition: { delay: 0.37, duration: 0.65, ease: "easeInOut" } }}
+            animate={{
+              opacity: 1,
+              y: 0,
+              transition: { delay: 0.37, duration: 0.65, ease: "easeInOut" },
+            }}
             className="text-xl font-inter text-gray-600 mb-6 text-center"
           >
             Accelerate your job search, optimize your resume, ace interviews, and land your dream job—CareerNest does it all, powered by AI.
@@ -143,7 +148,12 @@ const Index = () => {
               key={f.title}
               initial={{ opacity: 0, y: 32 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.18 + idx * 0.07, duration: 0.67, type: "spring", ease: "easeInOut" }}
+              transition={{
+                delay: 0.18 + idx * 0.07,
+                duration: 0.67,
+                type: "spring",
+                ease: "easeInOut"
+              }}
             >
               <FeatureCard {...f} />
             </motion.div>
@@ -201,3 +211,4 @@ const Index = () => {
 };
 
 export default Index;
+

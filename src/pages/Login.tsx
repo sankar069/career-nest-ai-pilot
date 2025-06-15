@@ -1,4 +1,3 @@
-
 // Removed import of ParticleBackground
 import { GlassOverlay } from "@/components/vfx/GlassOverlay";
 import { AnimatedAIAvatar } from "@/components/vfx/AnimatedAIAvatar";
@@ -6,6 +5,7 @@ import { FloatingLabelInput } from "@/components/vfx/FloatingLabelInput";
 import { TypingMission } from "@/components/vfx/TypingMission";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const phrases = [
   "AI-Powered Career Builder",
@@ -19,6 +19,7 @@ export default function Login() {
   const [pw, setPw] = useState("");
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const navigate = useNavigate();
 
   function validateEmail(email: string) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
@@ -39,6 +40,7 @@ export default function Login() {
     setSubmitted(true);
     setTimeout(() => {
       setSubmitted(false);
+      navigate("/features"); // Redirect after login/signup
       // Route or logic here
     }, 1200);
   }

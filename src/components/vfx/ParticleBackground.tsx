@@ -4,14 +4,14 @@ import Particles from "@tsparticles/react";
 import { loadFull } from "@tsparticles/engine";
 
 export function ParticleBackground() {
-  const particlesInit = useCallback(async (engine) => {
+  const particlesLoad = useCallback(async (engine) => {
     await loadFull(engine);
   }, []);
 
   return (
     <Particles
       id="tsparticles"
-      init={particlesInit}
+      load={particlesLoad}
       options={{
         fullScreen: { enable: true, zIndex: -2 },
         background: { color: { value: "#0a0326" } },

@@ -60,6 +60,7 @@ const App = () => (
               </React.Suspense>
             }
           />
+          <Route path="/career-analyzer" element={<CareerAnalyzer />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

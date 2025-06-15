@@ -1,58 +1,6 @@
 
-import { useCallback } from "react";
-import Particles, { loadFull } from "@tsparticles/react";
-
-export function ParticleBackground() {
-  // Proper loader for the @tsparticles/react v2+ API
-  const particlesInit = useCallback(async (engine) => {
-    await loadFull(engine);
-  }, []);
-
-  return (
-    <Particles
-      id="tsparticles"
-      init={particlesInit}
-      options={{
-        fullScreen: { enable: true, zIndex: -2 },
-        background: { color: { value: "#0a0326" } },
-        particles: {
-          number: {
-            value: 60,
-            density: { enable: true, value_area: 800 },
-          },
-          color: { value: ["#352cf6", "#61e5fc", "#97ff5c", "#e5e8ff"] },
-          shape: { type: ["circle", "polygon"] },
-          opacity: { value: 0.33 },
-          size: { value: 6 },
-          links: {
-            enable: true,
-            distance: 165,
-            color: "#61e5fc",
-            opacity: 0.19,
-            width: 2,
-            triangles: { enable: true, opacity: 0.06 },
-          },
-          move: {
-            enable: true,
-            speed: 1.3,
-            direction: "none",
-            outModes: { default: "bounce" },
-            attract: { enable: false },
-          }
-        },
-        interactivity: {
-          events: {
-            onHover: { enable: true, mode: "repulse" },
-            onClick: { enable: true, mode: "push" },
-          },
-          modes: {
-            repulse: { distance: 120 },
-            push: { quantity: 4 }
-          }
-        },
-        detectRetina: true
-      }}
-    />
-  );
+// ParticleBackground removed as per request and to resolve build errors.
+// If you wish to restore particle effects, consider a simpler library or upgrading tsparticles usage.
+export default function ParticleBackground() {
+  return null;
 }
-

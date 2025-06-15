@@ -1,9 +1,11 @@
+
 import { BrandButton } from "@/components/BrandButton";
 import { FeatureCard } from "@/components/FeatureCard";
 import { StatBar } from "@/components/StatBar";
 import { DashboardPreview } from "@/components/DashboardPreview";
 import { InterviewPreview } from "@/components/InterviewPreview";
 import { ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
 
 const features = [
   {
@@ -44,6 +46,16 @@ const features = [
   },
 ];
 
+const fadeInUp = {
+  initial: { opacity: 0, y: 24 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } },
+};
+
+const fadeIn = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1, transition: { duration: 0.7, ease: "easeOut" } }
+};
+
 const Index = () => {
   // Utility function for robust email validation
   function isValidEmail(email: string) {
@@ -53,9 +65,12 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen w-full bg-transparent flex flex-col">
+    <div className="min-h-screen w-full bg-transparent flex flex-col overflow-x-hidden">
       <header className="w-full py-6 mb-4">
-        <nav className="w-full flex justify-between items-center max-w-[1360px] mx-auto px-4">
+        <motion.nav
+          {...fadeInUp}
+          className="w-full flex justify-between items-center max-w-[1360px] mx-auto px-4"
+        >
           <div className="font-playfair text-2xl tracking-tight text-primary animate-fade-in">
             CareerNest
             <span className="font-normal text-gradient ml-1">AI</span>
@@ -68,36 +83,70 @@ const Index = () => {
               Login
             </BrandButton>
           </div>
-        </nav>
+        </motion.nav>
       </header>
 
       <main className="flex-1 flex flex-col items-center pt-10 px-4">
-        <section className="w-full max-w-[1240px] mx-auto flex flex-col items-center">
-          <h1 className="font-playfair text-hero font-extrabold text-center mb-3 animate-fade-in" style={{ lineHeight: "1.13" }}>
+        <motion.section
+          {...fadeInUp}
+          transition={{...fadeInUp.animate.transition, delay: 0.15}}
+          className="w-full max-w-[1240px] mx-auto flex flex-col items-center"
+        >
+          <motion.h1
+            layout
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1, transition: { delay: 0.2, duration: 0.8, type: "spring" } }}
+            className="font-playfair text-hero font-extrabold text-center mb-3"
+            style={{ lineHeight: "1.13" }}
+          >
             Your End-to-End <span className="text-gradient">AI Career Copilot</span>
-          </h1>
-          <div className="text-xl font-inter text-gray-600 mb-6 text-center animate-fade-in">
+          </motion.h1>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0, transition: { delay: 0.37, duration: 0.65 } }}
+            className="text-xl font-inter text-gray-600 mb-6 text-center"
+          >
             Accelerate your job search, optimize your resume, ace interviews, and land your dream job—CareerNest does it all, powered by AI.
-          </div>
+          </motion.div>
           <StatBar />
           <BrandButton as="a" href="#cta" className="text-xl font-inter px-8 py-4 mt-4 shadow-lg">
             Join Waitlist Now
             <ArrowRight size={22} />
           </BrandButton>
-        </section>
+        </motion.section>
 
-        <section className="w-full max-w-[1280px] flex justify-center gap-8 mt-12 mb-9 flex-wrap">
+        <motion.section
+          {...fadeIn}
+          transition={{...fadeIn.animate.transition, delay: 0.35}}
+          className="w-full max-w-[1280px] flex justify-center gap-8 mt-12 mb-9 flex-wrap"
+        >
           <DashboardPreview />
           <InterviewPreview />
-        </section>
+        </motion.section>
 
-        <section className="w-full max-w-[1300px] mx-auto mt-4 flex flex-wrap justify-center gap-7 pb-12 pt-2">
+        <motion.section
+          {...fadeIn}
+          transition={{...fadeIn.animate.transition, delay: 0.5}}
+          className="w-full max-w-[1300px] mx-auto mt-4 flex flex-wrap justify-center gap-7 pb-12 pt-2"
+        >
           {features.map((f, idx) => (
-            <FeatureCard key={f.title} {...f} />
+            <motion.div
+              key={f.title}
+              initial={{ opacity: 0, y: 32 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.18 + idx * 0.07, duration: 0.67, type: "spring" }}
+            >
+              <FeatureCard {...f} />
+            </motion.div>
           ))}
-        </section>
+        </motion.section>
 
-        <section id="cta" className="mx-auto mt-8 mb-24 w-full max-w-lg shadow-xl bg-white border border-muted rounded-2xl py-12 px-8 flex flex-col items-center animate-fade-in">
+        <motion.section
+          {...fadeInUp}
+          transition={{...fadeInUp.animate.transition, delay: 0.6}}
+          id="cta"
+          className="mx-auto mt-8 mb-24 w-full max-w-lg shadow-xl bg-white border border-muted rounded-2xl py-12 px-8 flex flex-col items-center animate-fade-in"
+        >
           <h2 className="font-playfair text-section font-bold mb-2 text-center">
             Be First In Line for Early Access
           </h2>
@@ -129,7 +178,7 @@ const Index = () => {
               Notify Me
             </BrandButton>
           </form>
-        </section>
+        </motion.section>
       </main>
 
       <footer className="border-t border-muted py-7 text-center text-xs text-gray-400 mt-auto">

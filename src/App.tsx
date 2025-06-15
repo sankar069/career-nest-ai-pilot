@@ -66,6 +66,7 @@ const App = () => (
               <CareerAnalyzerDemo />
             </React.Suspense>
           } />
+          <Route path="/auto-apply" element={<React.Suspense fallback={<div>Loading...</div>}><JobAutoApply /></React.Suspense>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
@@ -80,5 +81,6 @@ const ResumeBuilder = React.lazy(() => import("./pages/ResumeBuilder"));
 const AtsEngineDemo = React.lazy(() => import("./pages/AtsEngineDemo"));
 import CareerAnalyzer from "./pages/CareerAnalyzer";
 const CareerAnalyzerDemo = React.lazy(() => import("./pages/CareerAnalyzerDemo"));
+import JobAutoApply from "./pages/JobAutoApply";
 
 export default App;

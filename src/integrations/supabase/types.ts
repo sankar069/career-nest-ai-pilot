@@ -9,6 +9,57 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      job_applications: {
+        Row: {
+          applied_at: string | null
+          auto_filled_content: Json | null
+          company: string | null
+          created_at: string | null
+          error_message: string | null
+          id: string
+          job_id: string
+          job_title: string | null
+          job_url: string | null
+          location: string | null
+          salary: string | null
+          status: string | null
+          updated_at: string | null
+          user_email: string
+        }
+        Insert: {
+          applied_at?: string | null
+          auto_filled_content?: Json | null
+          company?: string | null
+          created_at?: string | null
+          error_message?: string | null
+          id?: string
+          job_id: string
+          job_title?: string | null
+          job_url?: string | null
+          location?: string | null
+          salary?: string | null
+          status?: string | null
+          updated_at?: string | null
+          user_email: string
+        }
+        Update: {
+          applied_at?: string | null
+          auto_filled_content?: Json | null
+          company?: string | null
+          created_at?: string | null
+          error_message?: string | null
+          id?: string
+          job_id?: string
+          job_title?: string | null
+          job_url?: string | null
+          location?: string | null
+          salary?: string | null
+          status?: string | null
+          updated_at?: string | null
+          user_email?: string
+        }
+        Relationships: []
+      }
       resumes: {
         Row: {
           ats_score: number | null

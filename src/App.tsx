@@ -80,9 +80,7 @@ const App = () => (
             </React.Suspense>
           } />
           <Route path="/auto-apply/demo" element={
-            <React.Suspense fallback={<div>Loading...</div>}>
-              <JobAutoApply />
-            </React.Suspense>
+            <JobAutoApply />
           } />
           <Route path="/dashboard" element={<Dashboard />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

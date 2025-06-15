@@ -1,26 +1,31 @@
 
 import { useCallback } from "react";
 import Particles from "@tsparticles/react";
-import { loadFull } from "@tsparticles/engine";
+import type { Engine } from "@tsparticles/engine";
+import { loadFull } from "@tsparticles/react";
 
 export function ParticleBackground() {
-  const particlesLoad = useCallback(async (engine) => {
+  // Proper loader for the @tsparticles/react v2+ API
+  const particlesInit = useCallback(async (engine: Engine) => {
     await loadFull(engine);
   }, []);
 
   return (
     <Particles
       id="tsparticles"
-      load={particlesLoad}
+      init={particlesInit}
       options={{
         fullScreen: { enable: true, zIndex: -2 },
         background: { color: { value: "#0a0326" } },
         particles: {
-          number: { value: 60, density: { enable: true, area: 800 } },
+          number: {
+            value: 60,
+            density: { enable: true, value_area: 800 },
+          },
           color: { value: ["#352cf6", "#61e5fc", "#97ff5c", "#e5e8ff"] },
-          shape: { type: ["circle", "polygon"], polygon: { nb_sides: 6 } },
-          opacity: { value: 0.33, random: { enable: true, minimumValue: 0.13 } },
-          size: { value: 6, random: { enable: true, minimumValue: 2 } },
+          shape: { type: ["circle", "polygon"] },
+          opacity: { value: 0.33 },
+          size: { value: 6, random: true },
           links: {
             enable: true,
             distance: 165,
@@ -35,12 +40,6 @@ export function ParticleBackground() {
             direction: "none",
             outModes: { default: "bounce" },
             attract: { enable: false },
-          },
-          shadow: {
-            enable: false
-          },
-          glow: {
-            enable: false
           }
         },
         interactivity: {
@@ -53,7 +52,7 @@ export function ParticleBackground() {
             push: { quantity: 4 }
           }
         },
-        detectRetina: true,
+        detectRetina: true
       }}
     />
   );

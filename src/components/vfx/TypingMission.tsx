@@ -2,13 +2,17 @@
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-const phrases = [
+interface TypingMissionProps {
+  phrases?: string[];
+}
+
+const defaultPhrases = [
   "Powering Your Career with AI...",
   "Smarter Resumes. Smarter Interviews.",
   "Let AI Accelerate Your Job Search."
 ];
 
-export const TypingMission = () => {
+export const TypingMission = ({ phrases = defaultPhrases }: TypingMissionProps) => {
   const [index, setIndex] = useState(0);
   const [subIdx, setSubIdx] = useState(0);
   const [deleting, setDeleting] = useState(false);
@@ -29,7 +33,7 @@ export const TypingMission = () => {
     }, deleting ? 25 : 60);
 
     return () => clearTimeout(timeout);
-  }, [subIdx, deleting, index]);
+  }, [subIdx, deleting, index, phrases]);
 
   return (
     <AnimatePresence mode="wait">

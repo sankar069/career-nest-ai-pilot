@@ -1,8 +1,8 @@
-
 import Player from "lottie-react";
 import { motion } from "framer-motion";
-// Example Lottie AI/robot animation from public CDN, or replace with your own
-const sampleAIUrl = "https://lottie.host/30be8743-0157-4bf9-94f4-8c09bf7f9f8a/eNvesccX5A.json";
+// Lottie animation, import as JSON
+// If you prefer to keep using a remote file, fetch and load it, otherwise import a file.
+import aiAnimation from "./ai-avatar.json"; // Place the JSON in this directory as ai-avatar.json
 
 export function AnimatedAIAvatar() {
   return (
@@ -16,7 +16,7 @@ export function AnimatedAIAvatar() {
       <Player
         autoplay
         loop
-        src={sampleAIUrl}
+        animationData={aiAnimation}
         style={{ width: "100%", height: "100%" }}
       />
     </motion.div>

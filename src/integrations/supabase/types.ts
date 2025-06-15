@@ -9,7 +9,42 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      resumes: {
+        Row: {
+          ats_score: number | null
+          created_at: string
+          file_url: string | null
+          id: string
+          resume_json: Json | null
+          semantic_match: number | null
+          type: string
+          updated_at: string
+          user_email: string
+        }
+        Insert: {
+          ats_score?: number | null
+          created_at?: string
+          file_url?: string | null
+          id?: string
+          resume_json?: Json | null
+          semantic_match?: number | null
+          type: string
+          updated_at?: string
+          user_email: string
+        }
+        Update: {
+          ats_score?: number | null
+          created_at?: string
+          file_url?: string | null
+          id?: string
+          resume_json?: Json | null
+          semantic_match?: number | null
+          type?: string
+          updated_at?: string
+          user_email?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

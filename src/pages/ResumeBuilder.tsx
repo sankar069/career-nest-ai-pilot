@@ -1,9 +1,9 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { motion } from "framer-motion";
+import { useUserResumes } from "@/hooks/useUserResumes";
 
 // Dummy logged-in email (replace with actual logic when backend is connected)
 const LOGGED_EMAIL = "user@email.com";
@@ -97,6 +97,22 @@ export default function ResumeBuilder() {
   };
   const exportDOCX = () => {
     alert("Export as DOCX coming soon! Connect Supabase for full feature.");
+  };
+
+  // Add resume persistence logic (per user)
+  const [saveStatus, setSaveStatus] = useState<null | string>(null);
+  const { saveResume } = useUserResumes(LOGGED_EMAIL);
+
+  // Function to save resume to Supabase
+  const persistResume = async () => {
+    setSaveStatus("Saving...");
+    try {
+      await saveResume(resume);
+      setSaveStatus("Resume saved!");
+      setTimeout(() => setSaveStatus(null), 1800);
+    } catch (err: any) {
+      setSaveStatus("Failed to save. " + err.message);
+    }
   };
 
   return (
@@ -239,6 +255,9 @@ export default function ResumeBuilder() {
         <div className="flex gap-3 mt-3">
           <Button variant="outline" onClick={exportPDF} className="rounded-full px-6">Export PDF</Button>
           <Button variant="outline" onClick={exportDOCX} className="rounded-full px-6">Export DOCX</Button>
+          <Button variant="default" onClick={persistResume} className="rounded-full px-6 bg-primary text-white">
+            Save Resume
+          </Button>
         </div>
       </motion.section>
 

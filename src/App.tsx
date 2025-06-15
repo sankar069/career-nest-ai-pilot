@@ -38,6 +38,7 @@ const App = () => (
               }
             />
           ))}
+          <Route path="/resume-builder" element={<React.Suspense fallback={<div>Loading...</div>}><ResumeBuilder /></React.Suspense>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
@@ -45,5 +46,9 @@ const App = () => (
     </TooltipProvider>
   </QueryClientProvider>
 );
+
+// Import ResumeBuilder for routing
+import React from "react";
+const ResumeBuilder = React.lazy(() => import("./pages/ResumeBuilder"));
 
 export default App;

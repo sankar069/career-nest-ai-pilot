@@ -87,7 +87,7 @@ export const FeatureDetailsPage: React.FC<FeatureDetailsPageProps> = ({
         className="text-base font-bold px-8 py-3 rounded-full shadow-lg bg-gradient-to-tr from-primary to-accent text-black hover:scale-105 transition-all"
         onClick={() => navigate(cta.demoPath)}
       >
-        {cta.label}
+        {title === "Resume & Cover Letter Generator" ? "Start Building Resume" : cta.label}
       </Button>
     </div>
   );

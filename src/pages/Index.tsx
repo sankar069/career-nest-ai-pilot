@@ -1,4 +1,3 @@
-
 import { BrandButton } from "@/components/BrandButton";
 import { FeatureCard } from "@/components/FeatureCard";
 import { StatBar } from "@/components/StatBar";
@@ -46,6 +45,13 @@ const features = [
 ];
 
 const Index = () => {
+  // Utility function for robust email validation
+  function isValidEmail(email: string) {
+    // Basic RFC 5322 regex - still not perfect, but covers most cases
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email.trim());
+  }
+
   return (
     <div className="min-h-screen w-full bg-transparent flex flex-col">
       <header className="w-full py-6 mb-4">
@@ -95,6 +101,14 @@ const Index = () => {
             className="flex w-full gap-3 justify-center items-center"
             onSubmit={e => {
               e.preventDefault();
+              const form = e.target as HTMLFormElement;
+              const emailInput = form.elements.namedItem('email') as HTMLInputElement;
+              const email = emailInput?.value ?? "";
+              if (!isValidEmail(email)) {
+                alert("Please enter a valid email address.");
+                emailInput.focus();
+                return;
+              }
               alert("Thank you! Beta notifications coming soon.");
             }}
           >

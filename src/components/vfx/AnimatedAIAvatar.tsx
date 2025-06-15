@@ -1,5 +1,5 @@
 
-import { Player } from "@lottie-react/lottie-react";
+import { Player } from "lottie-react";
 import { motion } from "framer-motion";
 // Example Lottie AI/robot animation from public CDN, or replace with your own
 const sampleAIUrl = "https://lottie.host/30be8743-0157-4bf9-94f4-8c09bf7f9f8a/eNvesccX5A.json";

@@ -83,6 +83,7 @@ const App = () => (
             <JobAutoApply />
           } />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/demo" element={<Dashboard />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

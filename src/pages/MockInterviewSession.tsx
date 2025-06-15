@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-// Stubs for future detailed features
 import { Monitor, Mic, MicOff, Video, VideoOff } from "lucide-react";
+import { AudioRecorder, blobToBase64 } from "../utils/audioUtils";
 
 // Placeholder for analytics
 const PerformanceAnalytics = ({ feedback }: { feedback: any }) => (
@@ -36,6 +36,50 @@ const MockInterviewSession = () => {
   const [showVideo, setShowVideo] = useState(false);
   const [sessionError, setSessionError] = useState<string | null>(null);
 
+  // For recording and video
+  const audioRecorderRef = useRef<AudioRecorder | null>(null);
+  const [isRecording, setIsRecording] = useState(false);
+  const [userTranscript, setUserTranscript] = useState<string | null>(null);
+  const [videoStream, setVideoStream] = useState<MediaStream | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (showVideo) {
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then((stream) => {
+          setVideoStream(stream);
+          if (videoRef.current) {
+            videoRef.current.srcObject = stream;
+          }
+        })
+        .catch((err) => {
+          setSessionError(
+            "Unable to access webcam. Please allow video access in your browser settings."
+          );
+          setShowVideo(false);
+        });
+    } else {
+      if (videoStream) {
+        videoStream.getTracks().forEach((track) => track.stop());
+        setVideoStream(null);
+      }
+    }
+    // Clean up on unmount
+    return () => {
+      if (videoStream) {
+        videoStream.getTracks().forEach((track) => track.stop());
+      }
+    };
+    // eslint-disable-next-line
+  }, [showVideo]);
+
+  // Sync videoRef srcObject
+  useEffect(() => {
+    if (videoRef.current && videoStream) {
+      videoRef.current.srcObject = videoStream;
+    }
+  }, [videoStream]);
+
   // DEBUG: log mounting and role parameter
   useEffect(() => {
     const role = (location.state && location.state.role) || "Frontend Developer";
@@ -45,29 +89,68 @@ const MockInterviewSession = () => {
   // Extract role from navigation state; fallback to generic
   const role = (location.state && location.state.role) || "Frontend Developer";
 
-  // On mount: fetch/generate first question from (future) AI backend
   useEffect(() => {
     setPhase("question");
     setLoading(false);
     setSessionError(null);
+    setUserTranscript(null);
   }, [currentQuestionIdx]);
 
-  const handleAnswer = () => {
-    // In a real implementation, send answer audio to backend (Whisper), get analytics, etc.
+  const handleStartRecording = async () => {
+    setIsRecording(true);
+    setUserTranscript(null);
+    if (!audioRecorderRef.current) {
+      audioRecorderRef.current = new AudioRecorder();
+    }
+    await audioRecorderRef.current.start(async (blob) => {
+      setIsRecording(false);
+      setLoading(true);
+
+      // Send to whisper edge function for transcription
+      try {
+        const base64Audio = await blobToBase64(blob);
+        const response = await fetch("/functions/v1/voice-to-text", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ audio: base64Audio }),
+        });
+        const data = await response.json();
+        if (data.text) {
+          setUserTranscript(data.text);
+        } else {
+          setUserTranscript("Could not transcribe audio.");
+        }
+      } catch (e) {
+        setUserTranscript("Transcription failed.");
+      }
+      setLoading(false);
+    });
+  };
+
+  const handleStopRecording = () => {
+    audioRecorderRef.current?.stop();
+  };
+
+  const handleAnswer = async () => {
+    handleStopRecording();
     setLoading(true);
+    // Simulate sentiment/confidence detection
     setTimeout(() => {
       setFeedback({
-        sentimentScore: "Positive",
-        confidenceScore: "High",
-        transcript: "I led a migration to React and solved critical bugs...",
-        bodyLanguage: showVideo ? "Engaged & attentive" : "N/A (video off)"
+        sentimentScore: "Calculated", // Could be improved w/ some API
+        confidenceScore: "Estimated",
+        transcript: userTranscript ?? "No input detected.",
+        bodyLanguage: showVideo ? "Video on (not evaluated)" : "N/A (video off)",
       });
       setPhase("feedback");
       setLoading(false);
-    }, 1800); // Simulate AI processing
+    }, 1200);
   };
 
   const handleNext = () => {
+    if (videoRef.current) {
+      videoRef.current.srcObject = null;
+    }
     if (currentQuestionIdx < QUESTION_STUBS.length - 1) {
       setCurrentQuestionIdx(idx => idx + 1);
       setPhase("question");
@@ -112,6 +195,7 @@ const MockInterviewSession = () => {
             className="rounded-full"
             size="icon"
             aria-label={micEnabled ? "Mute microphone" : "Unmute microphone"}
+            disabled={isRecording}
           >
             {micEnabled ? <Mic /> : <MicOff />}
           </Button>
@@ -125,6 +209,25 @@ const MockInterviewSession = () => {
             {showVideo ? <Video /> : <VideoOff />}
           </Button>
         </div>
+
+        {/* Show live webcam if enabled */}
+        {showVideo && (
+          <div className="mb-4 w-full flex flex-col items-center">
+            <video
+              ref={videoRef}
+              autoPlay
+              playsInline
+              muted
+              style={{
+                width: 240,
+                maxWidth: "90vw",
+                borderRadius: "1rem",
+                border: "2px solid #aabbdd",
+                boxShadow: "0 2px 12px rgba(90,132,255,.15)"
+              }}
+            />
+          </div>
+        )}
 
         {/* Question/Answer/Feedback Phases */}
         {phase === "question" && (
@@ -151,15 +254,43 @@ const MockInterviewSession = () => {
 
         {phase === "answer" && (
           <div className="text-center w-full animate-fade-in">
-            {/* Placeholder for voice recording */}
             <div className="mb-5 flex flex-col items-center gap-2">
               <span className="font-semibold">Your Turn: Record Your Answer</span>
-              <span className="text-sm text-muted-foreground">Speak your answer out loud</span>
+              <span className="text-sm text-muted-foreground">Speak your answer out loud. Make sure microphone is enabled!</span>
+            </div>
+            {/* Recording controls */}
+            <div className="flex flex-col items-center gap-3 mb-4">
+              {!isRecording ? (
+                <Button
+                  onClick={handleStartRecording}
+                  disabled={loading || !micEnabled}
+                  variant="secondary"
+                  className="mt-1"
+                >
+                  <Mic className="mr-1" />
+                  Start Recording
+                </Button>
+              ) : (
+                <Button
+                  onClick={handleStopRecording}
+                  variant="destructive"
+                  className="mt-1"
+                >
+                  <MicOff className="mr-1" />
+                  Stop Recording
+                </Button>
+              )}
+              {isRecording && <div className="text-red-500 font-semibold animate-pulse">Recording...</div>}
+              {userTranscript && (
+                <div className="w-full max-w-md mx-auto bg-muted/40 rounded-md p-3 text-base mt-2 text-gray-800 shadow border border-border text-left">
+                  <span className="font-bold">Transcript:</span> {userTranscript}
+                </div>
+              )}
             </div>
             <Button
               className="w-full"
               onClick={handleAnswer}
-              disabled={loading}
+              disabled={loading || isRecording || !userTranscript}
             >
               {loading ? (
                 <>

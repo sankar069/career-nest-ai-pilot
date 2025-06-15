@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
@@ -7,6 +6,7 @@ import { ChartContainer } from "@/components/ui/chart";
 import { BarChart, XAxis, YAxis, Bar, Tooltip, ResponsiveContainer, RadarChart, Radar, PolarGrid, PolarAngleAxis } from "recharts";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useAuthSession } from "@/hooks/useAuthSession";
 
 // Types
 type ApplicationStage = "Applied" | "Shortlisted" | "Interview" | "Offer" | "Rejected";
@@ -45,6 +45,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [userEmail, setUserEmail] = useState<string | null>(null);
 
+  const { user, signOut } = useAuthSession();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -104,7 +105,10 @@ export default function Dashboard() {
     <div className="max-w-5xl mx-auto py-8 px-4 flex flex-col gap-6">
       <div className="flex justify-between items-center mb-2">
         <h1 className="text-3xl font-bold">📊 My Career Progress Dashboard</h1>
-        <Button onClick={() => navigate("/")}>Home</Button>
+        <div className="flex gap-2">
+          <Button onClick={() => navigate("/")}>Home</Button>
+          <Button variant="outline" onClick={signOut}>Logout</Button>
+        </div>
       </div>
       {/* Main Cards */}
       <div className="flex flex-wrap gap-4">

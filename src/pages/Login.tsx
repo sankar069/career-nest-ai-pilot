@@ -1,4 +1,5 @@
-// Removed import of ParticleBackground
+
+// Removed mock login, use real Supabase authentication
 import { GlassOverlay } from "@/components/vfx/GlassOverlay";
 import { AnimatedAIAvatar } from "@/components/vfx/AnimatedAIAvatar";
 import { FloatingLabelInput } from "@/components/vfx/FloatingLabelInput";
@@ -6,12 +7,17 @@ import { TypingMission } from "@/components/vfx/TypingMission";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuthSession } from "@/hooks/useAuthSession";
 
 const phrases = [
   "AI-Powered Career Builder",
   "Smarter Applications in Seconds",
   "Level Up with CareerNest AI"
 ];
+
+// Must add browser origin for magic link redirect
+const emailRedirectTo = `${window.location.origin}/`;
 
 export default function Login() {
   const [view, setView] = useState<"login" | "signup">("login");
@@ -21,12 +27,21 @@ export default function Login() {
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
 
+  const { user, loading } = useAuthSession();
+
+  // Redirect logged-in users to dashboard
+  if (user && !loading) {
+    navigate("/dashboard");
+    return null;
+  }
+
   function validateEmail(email: string) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
     if (!validateEmail(email)) {
       setError("Please enter a valid email address.");
       setTimeout(() => setError(""), 2100);
@@ -38,16 +53,41 @@ export default function Login() {
       return;
     }
     setSubmitted(true);
-    setTimeout(() => {
+
+    if (view === "signup") {
+      const { error: signUpError } = await supabase.auth.signUp({
+        email,
+        password: pw,
+        options: { emailRedirectTo }
+      });
+      if (signUpError) {
+        setError(signUpError.message ?? "Sign up failed. Try another email.");
+        setSubmitted(false);
+        setTimeout(() => setError(""), 2500);
+        return;
+      }
+      // Wait and prompt the user to check their email for confirmation
+      setError("Signup successful! Check your email to confirm your account.");
       setSubmitted(false);
-      navigate("/features"); // Redirect after login/signup
-      // Route or logic here
-    }, 1200);
+      setTimeout(() => setError(""), 4000);
+      return;
+    }
+    if (view === "login") {
+      const { error: logErr } = await supabase.auth.signInWithPassword({ email, password: pw });
+      if (logErr) {
+        setError(logErr.message ?? "Login failed");
+        setSubmitted(false);
+        setTimeout(() => setError(""), 2500);
+        return;
+      }
+      // Session change effect will redirect
+      setSubmitted(false);
+      navigate("/dashboard");
+    }
   }
 
   return (
     <div className="relative min-h-screen overflow-hidden flex flex-col items-center justify-center bg-transparent dark:bg-[#0a0326]">
-      {/* Removed <ParticleBackground /> */}
       <GlassOverlay />
       <main className="relative z-20 w-full max-w-md mx-auto flex flex-col justify-center items-center pt-12 md:pt-20 pb-6 transition-all">
         <AnimatedAIAvatar />

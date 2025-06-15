@@ -1,4 +1,3 @@
-
 import { BrandButton } from "@/components/BrandButton";
 import { FeatureCard } from "@/components/FeatureCard";
 import { StatBar } from "@/components/StatBar";
@@ -48,12 +47,12 @@ const features = [
 
 const fadeInUp = {
   initial: { opacity: 0, y: 24 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.4, 0, 0.2, 1] } },
 };
 
 const fadeIn = {
   initial: { opacity: 0 },
-  animate: { opacity: 1, transition: { duration: 0.7, ease: "easeOut" } }
+  animate: { opacity: 1, transition: { duration: 0.7, ease: [0.4, 0, 0.2, 1] } }
 };
 
 const Index = () => {
@@ -68,7 +67,8 @@ const Index = () => {
     <div className="min-h-screen w-full bg-transparent flex flex-col overflow-x-hidden">
       <header className="w-full py-6 mb-4">
         <motion.nav
-          {...fadeInUp}
+          initial={fadeInUp.initial}
+          animate={fadeInUp.animate}
           className="w-full flex justify-between items-center max-w-[1360px] mx-auto px-4"
         >
           <div className="font-playfair text-2xl tracking-tight text-primary animate-fade-in">
@@ -88,8 +88,11 @@ const Index = () => {
 
       <main className="flex-1 flex flex-col items-center pt-10 px-4">
         <motion.section
-          {...fadeInUp}
-          transition={{...fadeInUp.animate.transition, delay: 0.15}}
+          initial={fadeInUp.initial}
+          animate={{
+            ...fadeInUp.animate,
+            transition: { ...fadeInUp.animate.transition, delay: 0.15 },
+          }}
           className="w-full max-w-[1240px] mx-auto flex flex-col items-center"
         >
           <motion.h1
@@ -116,8 +119,11 @@ const Index = () => {
         </motion.section>
 
         <motion.section
-          {...fadeIn}
-          transition={{...fadeIn.animate.transition, delay: 0.35}}
+          initial={fadeIn.initial}
+          animate={{
+            ...fadeIn.animate,
+            transition: { ...fadeIn.animate.transition, delay: 0.35 },
+          }}
           className="w-full max-w-[1280px] flex justify-center gap-8 mt-12 mb-9 flex-wrap"
         >
           <DashboardPreview />
@@ -125,8 +131,11 @@ const Index = () => {
         </motion.section>
 
         <motion.section
-          {...fadeIn}
-          transition={{...fadeIn.animate.transition, delay: 0.5}}
+          initial={fadeIn.initial}
+          animate={{
+            ...fadeIn.animate,
+            transition: { ...fadeIn.animate.transition, delay: 0.5 },
+          }}
           className="w-full max-w-[1300px] mx-auto mt-4 flex flex-wrap justify-center gap-7 pb-12 pt-2"
         >
           {features.map((f, idx) => (
@@ -142,8 +151,11 @@ const Index = () => {
         </motion.section>
 
         <motion.section
-          {...fadeInUp}
-          transition={{...fadeInUp.animate.transition, delay: 0.6}}
+          initial={fadeInUp.initial}
+          animate={{
+            ...fadeInUp.animate,
+            transition: { ...fadeInUp.animate.transition, delay: 0.6 },
+          }}
           id="cta"
           className="mx-auto mt-8 mb-24 w-full max-w-lg shadow-xl bg-white border border-muted rounded-2xl py-12 px-8 flex flex-col items-center animate-fade-in"
         >

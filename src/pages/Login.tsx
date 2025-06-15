@@ -1,5 +1,5 @@
 
-import { ParticleBackground } from "@/components/vfx/ParticleBackground";
+// Removed import of ParticleBackground
 import { GlassOverlay } from "@/components/vfx/GlassOverlay";
 import { AnimatedAIAvatar } from "@/components/vfx/AnimatedAIAvatar";
 import { FloatingLabelInput } from "@/components/vfx/FloatingLabelInput";
@@ -45,7 +45,7 @@ export default function Login() {
 
   return (
     <div className="relative min-h-screen overflow-hidden flex flex-col items-center justify-center bg-transparent dark:bg-[#0a0326]">
-      <ParticleBackground />
+      {/* Removed <ParticleBackground /> */}
       <GlassOverlay />
       <main className="relative z-20 w-full max-w-md mx-auto flex flex-col justify-center items-center pt-12 md:pt-20 pb-6 transition-all">
         <AnimatedAIAvatar />

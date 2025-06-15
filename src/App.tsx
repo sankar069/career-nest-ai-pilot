@@ -9,6 +9,8 @@ import Login from "./pages/Login";
 import Landing from "./pages/Landing";
 import { featuresData } from "./pages/featureDetailsContent";
 import { FeatureDetailsPage } from "./pages/FeatureDetailsPage";
+import InterviewSimulator from "./pages/InterviewSimulator";
+const MockInterviewSession = React.lazy(() => import("./pages/MockInterviewSession"));
 
 const queryClient = new QueryClient();
 
@@ -40,6 +42,15 @@ const App = () => (
           ))}
           <Route path="/resume-builder" element={<React.Suspense fallback={<div>Loading...</div>}><ResumeBuilder /></React.Suspense>} />
           <Route path="/ats-engine/demo" element={<React.Suspense fallback={<div>Loading...</div>}><AtsEngineDemo /></React.Suspense>} />
+          <Route path="/interview-simulator" element={<InterviewSimulator />} />
+          <Route
+            path="/mock-interview-session"
+            element={
+              <React.Suspense fallback={<div>Loading Mock Interview...</div>}>
+                <MockInterviewSession />
+              </React.Suspense>
+            }
+          />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -1,6 +1,8 @@
 
 import { useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
+// Import the Json type from the generated Supabase types
+import type { Json } from "@/integrations/supabase/types";
 
 export interface ResumeItem {
   id: string;
@@ -34,11 +36,12 @@ export function useUserResumes(userEmail: string | null) {
     setLoading(false);
   }, [userEmail]);
 
-  // Save builder-based resume
+  // Save builder-based resume (use Json type for resumeJson)
   const saveResume = useCallback(
-    async (resumeJson: object) => {
+    async (resumeJson: Json) => {
       if (!userEmail) { setError("User email is required"); return; }
       setLoading(true);
+      // Make sure resumeJson is of type Json
       const { error } = await supabase.from("resumes").insert([
         {
           user_email: userEmail,

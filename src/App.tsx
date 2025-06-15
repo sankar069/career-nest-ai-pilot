@@ -7,6 +7,8 @@ import Features from "./pages/Features";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Landing from "./pages/Landing";
+import { featuresData } from "./pages/featureDetailsContent";
+import { FeatureDetailsPage } from "./pages/FeatureDetailsPage";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +22,22 @@ const App = () => (
           <Route path="/" element={<Landing />} />
           <Route path="/features" element={<Features />} />
           <Route path="/login" element={<Login />} />
+          {/* Feature detail routes */}
+          {featuresData.map(feature => (
+            <Route
+              key={feature.route}
+              path={feature.route}
+              element={
+                <FeatureDetailsPage
+                  icon={feature.icon}
+                  title={feature.title}
+                  hero={feature.hero}
+                  featureList={feature.featureList}
+                  cta={feature.cta}
+                />
+              }
+            />
+          ))}
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

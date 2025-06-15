@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -36,6 +35,12 @@ const MockInterviewSession = () => {
   const [micEnabled, setMicEnabled] = useState(true);
   const [showVideo, setShowVideo] = useState(false);
   const [sessionError, setSessionError] = useState<string | null>(null);
+
+  // DEBUG: log mounting and role parameter
+  useEffect(() => {
+    const role = (location.state && location.state.role) || "Frontend Developer";
+    console.log("MockInterviewSession mounted with role:", role);
+  }, [location.state]);
 
   // Extract role from navigation state; fallback to generic
   const role = (location.state && location.state.role) || "Frontend Developer";

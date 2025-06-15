@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -22,8 +21,7 @@ const InterviewSimulator = () => {
     setLoading(true);
     setError(null);
     try {
-      // Future: call backend to create session, get session ID
-      // For now, pass role in navigation state
+      console.log("Navigating to /mock-interview-session with role:", selectedRole);
       setTimeout(() => {
         navigate("/mock-interview-session", { state: { role: selectedRole } });
       }, 1200); // simulate latency

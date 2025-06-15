@@ -1,8 +1,8 @@
-
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Landing() {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-[#f7f9fd] to-[#edeaff] px-3">
       <h1 className="font-playfair text-5xl md:text-6xl font-bold mb-6 text-primary text-center">
@@ -17,6 +17,14 @@ export default function Landing() {
       >
         Get Started
       </Link>
+      <div className="flex justify-center mt-10 gap-4">
+        <button 
+          className="px-6 py-3 bg-primary text-white rounded-full font-bold shadow hover:bg-accent hover:text-primary transition"
+          onClick={() => navigate("/dashboard")}
+        >
+          Go to My Dashboard
+        </button>
+      </div>
       <p className="mt-10 text-gray-400 text-xs text-center">
         &copy; {new Date().getFullYear()} CareerNest AI. All rights reserved.
       </p>

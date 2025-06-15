@@ -3,8 +3,10 @@ import React, { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { FileUp, CheckCircle2 } from "lucide-react";
-import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf";
-import "pdfjs-dist/legacy/build/pdf.worker.entry";
+import * as pdfjsLib from "pdfjs-dist/build/pdf";
+import pdfjsWorker from "pdfjs-dist/build/pdf.worker?worker"; // Vite worker loader
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
 const ATS_KEYWORDS = [
   "skills",

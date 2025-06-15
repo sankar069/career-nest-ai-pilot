@@ -47,12 +47,12 @@ const features = [
 
 const fadeInUp = {
   initial: { opacity: 0, y: 24 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.4, 0, 0.2, 1] } },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeInOut" } },
 };
 
 const fadeIn = {
   initial: { opacity: 0 },
-  animate: { opacity: 1, transition: { duration: 0.7, ease: [0.4, 0, 0.2, 1] } }
+  animate: { opacity: 1, transition: { duration: 0.7, ease: "easeInOut" } }
 };
 
 const Index = () => {
@@ -106,7 +106,7 @@ const Index = () => {
           </motion.h1>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0, transition: { delay: 0.37, duration: 0.65 } }}
+            animate={{ opacity: 1, y: 0, transition: { delay: 0.37, duration: 0.65, ease: "easeInOut" } }}
             className="text-xl font-inter text-gray-600 mb-6 text-center"
           >
             Accelerate your job search, optimize your resume, ace interviews, and land your dream job—CareerNest does it all, powered by AI.
@@ -142,8 +142,7 @@ const Index = () => {
             <motion.div
               key={f.title}
               initial={{ opacity: 0, y: 32 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.18 + idx * 0.07, duration: 0.67, type: "spring" }}
+              animate={{ opacity: 1, y: 0, transition: { delay: 0.18 + idx * 0.07, duration: 0.67, type: "spring" } }}
             >
               <FeatureCard {...f} />
             </motion.div>

@@ -1,6 +1,6 @@
 
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +13,8 @@ interface FeatureDetailsPageProps {
   cta: { label: string; demoPath: string };
 }
 
-const fadeVariants = {
+// Use Variants typing for fadeVariants
+const fadeVariants: Variants = {
   hidden: { opacity: 0, y: 32 },
   visible: (i: number) => ({
     opacity: 1,
@@ -21,8 +22,8 @@ const fadeVariants = {
     transition: {
       delay: 0.18 + i * 0.07,
       duration: 0.62,
-      type: "spring",
-      bounce: 0.20
+      type: "spring" as const,
+      bounce: 0.2
     }
   })
 };
@@ -70,6 +71,9 @@ export const FeatureDetailsPage: React.FC<FeatureDetailsPageProps> = ({
           <motion.div
             custom={i}
             variants={fadeVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
             key={f}
             className="bg-white flex items-center gap-3 rounded-lg shadow-feature border border-primary/10 px-5 py-4 text-gray-800 text-[1rem] font-inter"
           >

@@ -1,12 +1,11 @@
 
 import { useCallback } from "react";
 import Particles from "@tsparticles/react";
-import type { Engine } from "@tsparticles/engine";
-import { loadFull } from "@tsparticles/react";
+import { loadFull } from "@tsparticles/engine";
 
 export function ParticleBackground() {
   // Proper loader for the @tsparticles/react v2+ API
-  const particlesInit = useCallback(async (engine: Engine) => {
+  const particlesInit = useCallback(async (engine) => {
     await loadFull(engine);
   }, []);
 
@@ -20,11 +19,11 @@ export function ParticleBackground() {
         particles: {
           number: {
             value: 60,
-            density: { enable: true, value_area: 800 },
+            density: { enable: true, area: 800 },
           },
           color: { value: ["#352cf6", "#61e5fc", "#97ff5c", "#e5e8ff"] },
           shape: { type: ["circle", "polygon"] },
-          opacity: { value: 0.33 },
+          opacity: { value: 0.33, random: true },
           size: { value: 6, random: true },
           links: {
             enable: true,

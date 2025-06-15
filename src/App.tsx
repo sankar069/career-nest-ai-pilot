@@ -73,5 +73,6 @@ const App = () => (
 import React from "react";
 const ResumeBuilder = React.lazy(() => import("./pages/ResumeBuilder"));
 const AtsEngineDemo = React.lazy(() => import("./pages/AtsEngineDemo"));
+import CareerAnalyzer from "./pages/CareerAnalyzer";
 
 export default App;

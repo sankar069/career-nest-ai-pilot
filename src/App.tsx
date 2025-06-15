@@ -11,6 +11,7 @@ import { featuresData } from "./pages/featureDetailsContent";
 import { FeatureDetailsPage } from "./pages/FeatureDetailsPage";
 import InterviewSimulator from "./pages/InterviewSimulator";
 const MockInterviewSession = React.lazy(() => import("./pages/MockInterviewSession"));
+const InterviewSimulatorDemo = React.lazy(() => import("./pages/InterviewSimulatorDemo"));
 
 const queryClient = new QueryClient();
 
@@ -48,6 +49,14 @@ const App = () => (
             element={
               <React.Suspense fallback={<div>Loading Mock Interview...</div>}>
                 <MockInterviewSession />
+              </React.Suspense>
+            }
+          />
+          <Route
+            path="/interview-simulator/demo"
+            element={
+              <React.Suspense fallback={<div>Loading...</div>}>
+                <InterviewSimulatorDemo />
               </React.Suspense>
             }
           />
